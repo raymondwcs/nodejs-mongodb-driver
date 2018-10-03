@@ -4,7 +4,7 @@ var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/test';
 
 var aggregateRestaurants = function(db, callback) {
-	var cursor = db.collection('restaurants').aggregate(
+	var cursor = db.collection('restaurant').aggregate(
 	[
 		{$match: {"borough": "Queens", "cuisine": "Brazilian"}},
 		{$group: {"_id": "$address.zipcode", "count": {$sum: 1}}}
