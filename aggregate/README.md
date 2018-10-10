@@ -1,7 +1,8 @@
 # Node.js Example: MongoDB Aggregate
 An example of using `aggregrate`.  This program reports the number of restaurants in each borough.
 ## Getting Started
-Change the value of variable `url` in `server.js` to the address of your [mlab server](http://mlab.com).
+1. Change the value of variable `url` in `server.js` to the address of your [mlab server](http://mlab.com).
+2. You need a collection named `restaurant` with a few documents in it.
 ### Installing
 ```
 npm install
