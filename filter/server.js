@@ -1,7 +1,8 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/test';
+//var url = 'mongodb://localhost:27017/test';
+var url = 'mongodb://developer:developer123@ds031873.mlab.com:31873/comps381f';
 
 var aggregateRestaurants = function(db, callback) {
 	var cursor = db.collection('restaurant').aggregate(
