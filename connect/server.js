@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const ObjectId = require('mongodb').ObjectID;
 const url = '';
-const dbName = 'comps381f';
+const dbName = '';
 
 const client = new MongoClient(url);
 
