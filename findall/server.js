@@ -1,9 +1,10 @@
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/test';
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+const ObjectId = require('mongodb').ObjectID;
+const url = '';
+const dbName = '';
 
-var findRestaurants = function(db, callback) {
+const findRestaurants = function(db, callback) {
    var cursor = db.collection('restaurant').find();
    cursor.each(function(err, doc) {
       assert.equal(err, null);
@@ -15,10 +16,14 @@ var findRestaurants = function(db, callback) {
    });
 };
 
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  findRestaurants(db, function() {
-      db.close();
-  });
-});
+const client = new MongoClient(url);
+client.connect(function(err) {
+   assert.equal(null,err);
+   console.log("Connected successfully to server");
 
+   const db = client.db(dbName);
+ 
+   findRestaurants(db,function(){
+      client.close();
+   })
+})
