@@ -1,9 +1,10 @@
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/test';
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+const ObjectId = require('mongodb').ObjectID;
+const url = '';
+const dbName = '';
 
-var aggregateRestaurants = function(db, callback) {
+const aggregateRestaurants = function(db, callback) {
 	var cursor = db.collection('restaurant').aggregate(
 	[
 		{$group: {"_id": "$borough", "count": {$sum: 1}}}
@@ -15,10 +16,13 @@ var aggregateRestaurants = function(db, callback) {
 	});
 };
 
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  aggregateRestaurants(db, function() {
-      db.close();
-  });
+const client = new MongoClient(url);
+client.connect(function(err) {
+	assert.equal(null,err);
+	console.log("Connected successfully to server");
+	
+	const db = client.db(dbName);
+	aggregateRestaurants(db,function(){
+		 client.close();
+	});
 });
-

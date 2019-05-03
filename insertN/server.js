@@ -1,7 +1,8 @@
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/test';
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+const ObjectId = require('mongodb').ObjectID;
+const url = '';
+const dbName = '';
 
 var books = [
 {"name": "Intro to Node.js","author": "John Dole", "price": 75.0, "stock":0},
@@ -9,16 +10,18 @@ var books = [
 ];
 
 var insertDocument = function(db, callback) {
-	db.collection('books').insert(books, function(err, result) {
+	db.collection('books').insertMany(books, function(err, result) {
 		assert.equal(err, null);
 		console.log("Inserted documents into the books collection.");
 		callback(result);
 	});
 };
 
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
+const client = new MongoClient(url);
+client.connect(function(err) {
+	assert.equal(null, err);
+  const db = client.db(dbName);
   insertDocument(db, function() {
-      db.close();
+      client.close();
   });
 });

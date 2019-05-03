@@ -2,7 +2,8 @@
 An example of using `aggregrate`.  This program reports the number of restaurants in each borough.
 ## Getting Started
 1. Change the value of variable `url` in `server.js` to the address of your [mlab server](http://mlab.com).
-2. You need a collection named `restaurant` with a few documents in it.
+2. Change the value of variable `dbName` in `server.js` to the name of your DB.
+3. You need a collection named `restaurant` with a few documents in it.
 ### Installing
 ```
 npm install
