@@ -25,6 +25,8 @@ client.connect((err) => {
   const db = client.db(dbName);
   insertDocument(db, () => {
       client.close();
+      console.log("Disconnected MongoDB server");
   });
 });
 
+console.log('Main program completed!');
