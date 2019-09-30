@@ -10,6 +10,11 @@ const updateRestaurants = (db, callback) => {
       { "restaurant_id" : "41156888" },
       { $set: { "address.street": "East 31st Street" } }, (err, results) => {
          console.log(results);
+         if (results.result.nModified == 1) {
+            console.log('Update Succeed!');
+         } else {
+            console.log('Update failed!!');
+         }
          callback();
       });
 };
