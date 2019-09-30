@@ -6,11 +6,15 @@ const dbName = '';
 
 const client = new MongoClient(url);
 
-client.connect(function(err) {
+client.connect((err) => {
    assert.equal(null,err);
    console.log("Connected successfully to server");
 
    const db = client.db(dbName);
+
+   /*
+   *  CRUD Operations
+   */
 
    client.close();
 });
