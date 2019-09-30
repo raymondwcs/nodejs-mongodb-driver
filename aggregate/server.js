@@ -4,12 +4,12 @@ const ObjectId = require('mongodb').ObjectID;
 const url = '';
 const dbName = '';
 
-const aggregateRestaurants = function(db, callback) {
-	var cursor = db.collection('restaurant').aggregate(
+const aggregateRestaurants = (db, callback) => {
+	let cursor = db.collection('restaurant').aggregate(
 	[
 		{$group: {"_id": "$borough", "count": {$sum: 1}}}
 	]
-	).toArray(function(err, result) {
+	).toArray((err, result) => {
 		assert.equal(err,null);
 		console.log(result);
 		callback(result);
@@ -17,7 +17,7 @@ const aggregateRestaurants = function(db, callback) {
 };
 
 const client = new MongoClient(url);
-client.connect(function(err) {
+client.connect((err) => {
 	assert.equal(null,err);
 	console.log("Connected successfully to server");
 	
