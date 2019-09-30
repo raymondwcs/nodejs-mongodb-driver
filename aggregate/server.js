@@ -5,6 +5,7 @@ const url = '';
 const dbName = '';
 
 const aggregateRestaurants = (db, callback) => {
+	/*
 	let cursor = db.collection('restaurant').aggregate(
 	[
 		{$group: {"_id": "$borough", "count": {$sum: 1}}}
@@ -14,6 +15,16 @@ const aggregateRestaurants = (db, callback) => {
 		console.log(result);
 		callback(result);
 	});
+	*/
+	let cursor = db.collection('restaurant').aggregate(
+		[
+			{$group: {"_id": "$borough", "count": {$sum: 1}}}
+		]
+	);
+	cursor.forEach((c) => {
+		console.log(c);
+	})
+	callback();
 };
 
 const client = new MongoClient(url);
