@@ -7,6 +7,7 @@ const dbName = '';
 const findRestaurants = (db, callback) => {
    let cursor = db.collection('restaurant').find().limit(10)
    cursor.toArray((err,docs) => {
+      assert.equal(err,null);
       callback(docs);
    });
 };
