@@ -9,6 +9,7 @@ const updateRestaurants = (db, callback) => {
       .updateOne(
       { "restaurant_id" : "41156888" },
       { $set: { "address.street": "East 31st Street" } }, (err, results) => {
+         assert.equal(err,null);
          console.log(results);
          if (results.result.nModified == 1) {
             console.log('Update Succeed!');
