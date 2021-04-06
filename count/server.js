@@ -1,26 +1,33 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-const ObjectId = require('mongodb').ObjectID;
-const url = '';  // mlab url
-const dbName = ''; // mlab db
+const { MongoClient } = require("mongodb");
+const dbName = "test";
+const collectionName = 'restaurants'
+// Replace the uri string with your MongoDB deployment's connection string.
+const uri = ``;
+const client = new MongoClient(uri, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
 
-const countRestaurants = function (db, callback) {
-	var collection = db.collection('restaurant');
-	collection.countDocuments({},{},function (err, count) {
-		assert.equal(null, err);
-		console.log(`There are ${count} documents in the restuarant collection`);
+const countRestaurants = (db, callback) => {
+	let collection = db.collection(collectionName);
+
+	collection.countDocuments({}, {}, (err, count) => {
+		if (err) { throw err }
+		callback(count);
 	})
-	callback();
 }
 
-const client = new MongoClient(url);
-client.connect(function (err) {
-	assert.equal(null, err);
-	console.log("Connected successfully to server");
+try {
+	client.connect(err => {
+		const db = client.db(dbName)
 
-	const db = client.db(dbName);
-
-	countRestaurants(db, function() {
-		client.close();
+		countRestaurants(db, (count) => {
+			console.log(`There are ${count} document(s) in the "${collectionName}" collection`);
+			client.close();
+		})
 	})
-})
+} catch (err) {
+	console.error(err)
+}
+
+

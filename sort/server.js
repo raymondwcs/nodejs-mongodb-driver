@@ -1,28 +1,32 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-const ObjectId = require('mongodb').ObjectID;
-const url = '';
-const dbName = '';
+const { MongoClient } = require("mongodb");
+const dbName = "test";
+const collectionName = 'restaurants'
+// Replace the uri string with your MongoDB deployment's connection string.
+const uri = ``;
+const client = new MongoClient(uri, {
+   useNewUrlParser: true,
+   useUnifiedTopology: true,
+});
+
+try {
+   client.connect(err => {
+      const db = client.db(dbName)
+
+      findRestaurants(db, (docs) => {
+         console.log(docs);
+         client.close()
+      })
+   })
+} catch (err) {
+   console.error(err)
+}
 
 const findRestaurants = (db, callback) => {
-   let cursor = db.collection('restaurant')
-                  .find()
-                  .sort({"borough": 1, "address.zipcode": 1})
-                  .limit(10);
-   cursor.forEach((doc) => {
-      console.log(JSON.stringify(doc));
+   let cursor = db.collection(collectionName)
+      .find()
+      .sort({ "borough": 1, "address.zipcode": 1 })
+      .limit(10);
+   cursor.toArray((err, results) => {
+      callback(results);
    });
-   callback();
 };
-
-const client = new MongoClient(url);
-client.connect((err) => {
-   assert.equal(null,err);
-   console.log("Connected successfully to server");
-
-   const db = client.db(dbName);
- 
-   findRestaurants(db,() => {
-      client.close();
-   })
-})

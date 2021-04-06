@@ -1,28 +1,32 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-const ObjectId = require('mongodb').ObjectID;
-const url = '';
-const dbName = '';
+const { MongoClient } = require("mongodb");
+const dbName = "test";
+const collectionName = 'restaurants'
+// Replace the uri string with your MongoDB deployment's connection string.
+const uri = ``;
+const client = new MongoClient(uri, {
+   useNewUrlParser: true,
+   useUnifiedTopology: true,
+});
 
 const replaceRestaurants = (db, callback) => {
-   db.collection('restaurant')
+   db.collection(collectionName)
       .replaceOne(
-      { "restaurant_id" : "41156888" },
-      { "name": "Unknown" }, 
-      (err, results) => {
-         console.log(results);
-         callback();
-      });
+         { "restaurant_id": "41156888" },
+         { "name": "Unknown" },
+         (err, results) => {
+            callback(results);
+         });
 };
 
-const client = new MongoClient(url);
-client.connect((err) => {
-   assert.equal(null,err);
-   console.log("Connected successfully to server");
+try {
+   client.connect(err => {
+      const db = client.db(dbName)
 
-   const db = client.db(dbName);
- 
-   replaceRestaurants(db,() => {
-      client.close();
+      replaceRestaurants(db, (results) => {
+         console.log(results);
+         client.close()
+      })
    })
-})
+} catch (err) {
+   console.error(err)
+}

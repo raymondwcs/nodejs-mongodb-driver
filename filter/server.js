@@ -1,18 +1,33 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-const ObjectId = require('mongodb').ObjectID;
-const url = 'mongodb+srv://student:comps381f@cluster0-xljee.mongodb.net/test?retryWrites=true&w=majority';
-const dbName = 'test';
+const { MongoClient } = require("mongodb");
+const dbName = "test";
+// Replace the uri string with your MongoDB deployment's connection string.
+const uri = ``;
+const client = new MongoClient(uri, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
+const collectionName = 'restaurants'
+
+try {
+	client.connect(err => {
+		const db = client.db(dbName)
+
+		aggregateRestaurants(db, (results) => {
+			console.log(`Zipcode ${results} in Queens has the most number of Brazilian restaurants`);
+			client.close()
+		})
+	})
+} catch (err) {
+	console.error(err)
+}
 
 const aggregateRestaurants = (db, callback) => {
-	var cursor = db.collection('restaurant').aggregate(
-	[
-		{$match: {"borough": "Queens", "cuisine": "Brazilian"}},
-		{$group: {"_id": "$address.zipcode", "count": {$sum: 1}}}
-	]
+	var cursor = db.collection(collectionName).aggregate(
+		[
+			{ $match: { "borough": "Queens", "cuisine": "Brazilian" } },
+			{ $group: { "_id": "$address.zipcode", "count": { $sum: 1 } } }
+		]
 	).toArray((err, result) => {
-		assert.equal(err,null);
-		console.log(result);
 		/*
 		* Lets find which zipcode in Queens has the most number of Brazilian restaurants
 		*/
@@ -21,23 +36,10 @@ const aggregateRestaurants = (db, callback) => {
 		result.forEach((x) => {
 			if (x.count > max) {
 				max = x.count;
-				maxZip = x._id;	
+				maxZip = x._id;
 			}
 		})
-		console.log(`Zipcode ${maxZip} in Queens has the most number of Brazilian restaurants`);
-		callback(result);
+		callback(maxZip);
 	});
 };
 
-const client = new MongoClient(url);
-client.connect((err) => {
-	assert.equal(null, err);
-	console.log("Connected successfully to server");
-
-	const db = client.db(dbName);
-	
-  aggregateRestaurants(db, function() {
-      client.close();
-	});
-	
-});

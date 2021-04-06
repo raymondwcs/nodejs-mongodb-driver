@@ -1,39 +1,36 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-const ObjectId = require('mongodb').ObjectID;
-const url = '';
-const dbName = '';
+const { MongoClient } = require("mongodb");
+const dbName = 'test';
+const uri = '';
+const collectionName = 'restaurants'
 
 const aggregateRestaurants = (db, callback) => {
-	/*
-	let cursor = db.collection('restaurant').aggregate(
-	[
-		{$group: {"_id": "$borough", "count": {$sum: 1}}}
-	]
-	).toArray((err, result) => {
-		assert.equal(err,null);
-		console.log(result);
-		callback(result);
-	});
-	*/
-	let cursor = db.collection('restaurant').aggregate(
-		[
-			{$group: {"_id": "$borough", "count": {$sum: 1}}}
-		]
-	);
-	cursor.forEach((c) => {
-		console.log(c);
-	})
-	callback();
+	try {
+		let cursor = db.collection(collectionName).aggregate(
+			[
+				{ $group: { "_id": "$borough", "count": { $sum: 1 } } }
+			]
+		).toArray((err, results) => {
+			callback(results);
+		});
+	} catch (err) {
+		throw err
+	}
 };
 
-const client = new MongoClient(url);
-client.connect((err) => {
-	assert.equal(null,err);
-	console.log("Connected successfully to server");
-	
-	const db = client.db(dbName);
-	aggregateRestaurants(db,function(){
-		 client.close();
-	});
+const client = new MongoClient(uri, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
 });
+
+try {
+	client.connect(err => {
+		const db = client.db(dbName)
+
+		aggregateRestaurants(db, (docs) => {
+			console.log(docs)
+			client.close()
+		})
+	})
+} catch (err) {
+	console.error(err)
+}
