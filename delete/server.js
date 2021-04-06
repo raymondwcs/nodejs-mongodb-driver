@@ -24,7 +24,6 @@ try {
 
       deleteRestaurants(db, (results) => {
          console.log(`No. of document(s) deleted: ${results}`);
-         client.close()
       })
    })
 } catch (err) {

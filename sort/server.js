@@ -14,7 +14,6 @@ try {
 
       findRestaurants(db, (docs) => {
          console.log(docs);
-         client.close()
       })
    })
 } catch (err) {

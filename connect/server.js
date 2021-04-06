@@ -13,7 +13,6 @@ try {
 
       db.command({ ping: 1 }, () => {
          console.log(`connected to Mongodb server.`)
-         client.close()
       })
    })
 } catch (err) {

@@ -25,7 +25,6 @@ try {
 
     insertDocument(db, (results) => {
       console.log(`Inserted ${results.insertedCount} document (_id: ${results.insertedId}) into the ${collectionName} collection.`);
-      client.close()
     })
   })
 } catch (err) {

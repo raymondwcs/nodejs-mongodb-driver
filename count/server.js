@@ -23,7 +23,6 @@ try {
 
 		countRestaurants(db, (count) => {
 			console.log(`There are ${count} document(s) in the "${collectionName}" collection`);
-			client.close();
 		})
 	})
 } catch (err) {

@@ -14,7 +14,6 @@ try {
 
 		aggregateRestaurants(db, (results) => {
 			console.log(`Zipcode ${results} in Queens has the most number of Brazilian restaurants`);
-			client.close()
 		})
 	})
 } catch (err) {

@@ -19,7 +19,6 @@ try {
          } else {
             console.log('Update failed!!');
          }
-         client.close()
       })
    })
 } catch (err) {

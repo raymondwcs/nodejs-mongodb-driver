@@ -24,7 +24,6 @@ try {
 
       replaceRestaurants(db, (results) => {
          console.log(results);
-         client.close()
       })
    })
 } catch (err) {
