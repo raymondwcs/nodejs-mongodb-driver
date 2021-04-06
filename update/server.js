@@ -13,7 +13,7 @@ try {
       const db = client.db(dbName)
 
       updateRestaurants(db, (results) => {
-         console.log(results)
+         // console.log(results)
          if (results.modifiedCount == 1) {
             console.log('Update was succesful');
          } else {
@@ -30,6 +30,6 @@ const updateRestaurants = (db, callback) => {
       .updateOne(
          { "restaurant_id": "41156888" },
          { $set: { "address.street": "East 31st Street" } }, (err, results) => {
-            callback(results);
+            client.close(() => callback(results));
          });
 };
