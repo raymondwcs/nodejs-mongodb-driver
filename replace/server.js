@@ -23,7 +23,7 @@ try {
       const db = client.db(dbName)
 
       replaceRestaurants(db, (results) => {
-         console.log(results);
+         client.close(() => console.log(results));
       })
    })
 } catch (err) {

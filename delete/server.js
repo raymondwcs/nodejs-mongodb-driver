@@ -23,7 +23,7 @@ try {
       const db = client.db(dbName)
 
       deleteRestaurants(db, (results) => {
-         console.log(`No. of document(s) deleted: ${results}`);
+         client.close(() => console.log(`No. of document(s) deleted: ${results}`));
       })
    })
 } catch (err) {

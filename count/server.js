@@ -22,7 +22,7 @@ try {
 		const db = client.db(dbName)
 
 		countRestaurants(db, (count) => {
-			console.log(`There are ${count} document(s) in the "${collectionName}" collection`);
+			client.close(() => console.log(`There are ${count} document(s) in the "${collectionName}" collection`));
 		})
 	})
 } catch (err) {

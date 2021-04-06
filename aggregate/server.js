@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 const dbName = 'test';
-const uri = '';
+const uri = ``;
 const collectionName = 'restaurants'
 
 const aggregateRestaurants = (db, callback) => {
@@ -27,7 +27,7 @@ try {
 		const db = client.db(dbName)
 
 		aggregateRestaurants(db, (docs) => {
-			console.log(docs)
+			client.close(() => console.log(docs))
 		})
 	})
 } catch (err) {

@@ -12,7 +12,7 @@ try {
       const db = client.db(dbName)
 
       db.command({ ping: 1 }, () => {
-         console.log(`connected to Mongodb server.`)
+         client.close(() => console.log(`connected to Mongodb server.`))
       })
    })
 } catch (err) {

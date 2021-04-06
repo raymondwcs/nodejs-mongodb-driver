@@ -13,7 +13,7 @@ try {
       const db = client.db(dbName)
 
       findRestaurants(db, (docs) => {
-         console.log(docs);
+         client.close(() => console.log(docs));
       })
    })
 } catch (err) {

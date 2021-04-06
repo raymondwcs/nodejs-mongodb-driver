@@ -13,7 +13,7 @@ try {
 		const db = client.db(dbName)
 
 		aggregateRestaurants(db, (results) => {
-			console.log(`Zipcode ${results} in Queens has the most number of Brazilian restaurants`);
+			client.close(() => console.log(`Zipcode ${results} in Queens has the most number of Brazilian restaurants`));
 		})
 	})
 } catch (err) {

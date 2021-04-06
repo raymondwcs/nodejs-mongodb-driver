@@ -24,7 +24,7 @@ try {
     const db = client.db(dbName)
 
     insertDocument(db, (results) => {
-      console.log(`Inserted ${results.insertedCount} document (_id: ${results.insertedId}) into the ${collectionName} collection.`);
+      client.close(() => console.log(`Inserted ${results.insertedCount} document (_id: ${results.insertedId}) into the ${collectionName} collection.`));
     })
   })
 } catch (err) {
